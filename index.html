@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AgriBot — Smart Colorful AI Farming Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #43cea2, #185a9d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* 🌾 Main Website Container */
+    .site-container {
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      min-height: 650px;
+    }
+
+    /* 🌿 Left Information Panel */
+    .info-panel {
+      padding: 50px 40px;
+      background: linear-gradient(135deg, #a8e063, #56ab2f);
+      color: #0a2c12;
+    }
+
+    .info-panel h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .info-panel p {
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .features {
+      margin-top: 30px;
+    }
+
+    .feature-item {
+      background: rgba(255,255,255,0.75);
+      padding: 12px 15px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* 🤖 Chatbot Panel (BIGGER & COLORFUL) */
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #ffffff, #f3fdf7);
+    }
+
+    .chat-header {
+      background: linear-gradient(90deg, #ff8a00, #e52e71);
+      color: white;
+      padding: 18px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: linear-gradient(180deg, #e8f5e9, #ffffff);
+    }
+
+    .msg {
+      max-width: 80%;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      border-radius: 14px;
+      font-size: 14px;
+    }
+
+    .bot {
+      background: linear-gradient(135deg, #43cea2, #80ffd3);
+      color: #033f2e;
+      border-top-left-radius: 4px;
+    }
+
+    .user {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      margin-left: auto;
+      border-top-right-radius: 4px;
+    }
+
+    .image-msg img {
+      max-width: 220px;
+      border-radius: 10px;
+      display: block;
+      margin-top: 6px;
+    }
+
+    .chat-input-area {
+      padding: 12px;
+      background: #ffffff;
+      border-top: 2px solid #e0e0e0;
+    }
+
+    .upload-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .chat-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-row input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .chat-row button {
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      font-size: 18px;
+      color: white;
+    }
+
+    .send-btn { background: linear-gradient(135deg, #11998e, #38ef7d); }
+    .mic-btn { background: linear-gradient(135deg, #f7971e, #ffd200); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .site-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="site-container">
+
+  <!-- 🌾 BACKGROUND INFORMATION PANEL -->
+  <div class="info-panel">
+    <h1>🌾 AgriBot</h1>
+    <p>
+      AgriBot is a smart AI-powered farming assistant designed to help farmers make better daily agricultural decisions.
+      It provides instant guidance on crop selection, plant diseases, weather awareness, and modern farming practices.
+    </p>
+
+    <p>
+      This platform aims to combine artificial intelligence with agriculture to improve crop productivity, reduce
+      losses caused by diseases, and support farmers with real-time expert-like advice.
+    </p>
+
+    <div class="features">
+      <div class="feature-item">🤖 Intelligent Farming Chatbot</div>
+      <div class="feature-item">🎤 Voice-Based Farmer Interaction</div>
+      <div class="feature-item">📷 Plant Disease Image Upload</div>
+      <div class="feature-item">🌱 Crop Recommendation Support</div>
+      <div class="feature-item">🌦 Weather & Rainfall Awareness</div>
+    </div>
+  </div>
+
+  <!-- 🤖 CHATBOT PANEL -->
+  <div class="chat-panel">
+    <div class="chat-header">AgriBot – Smart Farming Assistant</div>
+
+    <div class="chat-body" id="chatBody">
+      <div class="msg bot">Hello 👋 I am AgriBot! You can type, speak 🎤, or upload a leaf image 📷 for assistance.</div>
+    </div>
+
+    <div class="chat-input-area">
+      <div class="upload-row">
+        <input type="file" id="imageUpload" accept="image/*">
+        <span>Upload plant leaf image</span>
+      </div>
+
+      <div class="chat-row">
+        <input type="text" id="chatInput" placeholder="Ask about crop, disease, rain...">
+        <button class="mic-btn" id="micBtn">🎤</button>
+        <button class="send-btn" id="sendBtn">➤</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const chatBody = document.getElementById('chatBody');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const micBtn = document.getElementById('micBtn');
+  const imageUpload = document.getElementById('imageUpload');
+
+  function addMessage(text, sender, isImage = false) {
+    const msg = document.createElement('div');
+    msg.className = `msg ${sender}`;
+
+    if (isImage) {
+      const img = document.createElement('img');
+      img.src = text;
+      msg.classList.add('image-msg');
+      msg.appendChild(img);
+    } else {
+      msg.textContent = text;
+    }
+
+    chatBody.appendChild(msg);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function botReply(message) {
+    let reply = "I'm here to help you with farming!";
+    const m = message.toLowerCase();
+
+    if (m.includes('crop')) reply = "Tell me your season and soil type for crop recommendation.";
+    else if (m.includes('disease')) reply = "Please upload a leaf image or describe the symptoms.";
+    else if (m.includes('rain')) reply = "Heavy rain can damage crops. Ensure proper drainage.";
+    else if (m.includes('hello') || m.includes('hi')) reply = "Hello farmer! How can I assist you today?";
+
+    const speech = new SpeechSynthesisUtterance(reply);
+    speech.lang = "en-IN";
+    speechSynthesis.speak(speech);
+
+    setTimeout(() => addMessage(reply, 'bot'), 400);
+  }
+
+  sendBtn.onclick = () => {
+    const text = chatInput.value.trim();
+    if (!text) return;
+    addMessage(text, 'user');
+    chatInput.value = '';
+    botReply(text);
+  };
+
+  chatInput.addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendBtn.click();
+  });
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-IN";
+
+    micBtn.onclick = () => recognition.start();
+
+    recognition.onresult = e => {
+      const text = e.results[0][0].transcript;
+      chatInput.value = text;
+      sendBtn.click();
+    };
+  }
+
+  imageUpload.onchange = () => {
+    const file = imageUpload.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      addMessage(reader.result, 'user', true);
+      setTimeout(() => {
+        addMessage("Image analyzed ✅ Possible issue: Leaf Spot (demo result).", 'bot');
+      }, 600);
+    };
+    reader.readAsDataURL(file);
+  };
+</script>
+
+</body>
+</html>
